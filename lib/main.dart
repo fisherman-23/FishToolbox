@@ -7,6 +7,8 @@ import 'package:prototype_1/fileShare.dart';
 import 'package:prototype_1/home.dart';
 import 'package:prototype_1/services/userSimplePreferences.dart';
 import 'package:flutter_phoenix/flutter_phoenix.dart';
+
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await UserSimplePreferences.init();
@@ -44,7 +46,7 @@ class MyAppState extends State<MyApp> {
     });
   }
 
-  
+
   @override 
   Widget build(BuildContext context) {
     return MaterialApp(
