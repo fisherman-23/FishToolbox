@@ -21,6 +21,8 @@ class VerificationState extends State<Verification> {
       ),
       body: Container(padding: EdgeInsets.all(20),
         child: Column(children: [Text("NRIC",
+         style: TextStyle(fontSize: 23*fontMultiplier, fontFamily: 'ProductSansRegular', color: Colors.white)),
+         Text("Car Plate",
          style: TextStyle(fontSize: 23*fontMultiplier, fontFamily: 'ProductSansRegular', color: Colors.white))]),
       )
       );

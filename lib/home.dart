@@ -4,6 +4,7 @@ import 'package:flutter/rendering.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:prototype_1/appInfoDialog.dart';
 import 'package:prototype_1/customWidget.dart';
+import 'package:prototype_1/modules/internetSpeed.dart';
 import 'package:prototype_1/modules/verification.dart';
 import 'package:prototype_1/services/userSimplePreferences.dart';
 import 'package:prototype_1/settings.dart';
@@ -70,7 +71,7 @@ class HomePage extends StatelessWidget {
   );
 
   Widget build(BuildContext context) {
-    final data = MediaQueryData.fromWindow(WidgetsBinding.instance!.window);
+    final data = MediaQueryData.fromWindow(WidgetsBinding.instance.window);
     final deviceWidth = data.size.width;
     final deviceHeight = data.size.height;
     return Scaffold(
@@ -164,6 +165,7 @@ class HomePage extends StatelessWidget {
             children: [
           InkWell(onTap: () {Navigator.push(context,MaterialPageRoute(builder: (context) =>Verification()),);},child: CustomCard(inputText: "Verification Suite", inputText2: "Contains a variety of verification tools for everyday use", color1: homeCardColor, color2: homeCardColor,),),
            CustomCard(inputText: "Compression", inputText2: "Compresses a video file or a image file", color1: homeCardColor, color2: homeCardColor,),
+           InkWell(onTap: () {Navigator.push(context,MaterialPageRoute(builder: (context) =>InternetSpeed()),);},child: CustomCard(inputText: "Internet Speed", inputText2: "Internet Speed Test ", color1: homeCardColor, color2: homeCardColor,),),
   
            ]))
           
