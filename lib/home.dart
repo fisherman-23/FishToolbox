@@ -9,15 +9,70 @@ import 'package:prototype_1/services/userSimplePreferences.dart';
 import 'package:prototype_1/settings.dart';
 import 'package:thermal/thermal.dart';
 
+
 class HomePage extends StatelessWidget {
 
   @override 
   var _thermal = Thermal();
   var homeCardColor = Color.fromARGB(255, 23, 23, 23);
   var fontMultiplier = UserSimplePreferences.getFontMultiplier() ?? 1.0;
-  var a = '-';
-  Widget build(BuildContext context) {
+  var thermalStatus = '-';
+  void thermalCustomDialog(BuildContext context, height) => showDialog(
+    
+    context: context, 
+    builder: (BuildContext context) {
+      
+          return Dialog(
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+            backgroundColor: Colors.redAccent,
+            
+      child: Padding(
+        padding: const EdgeInsets.all(10),
+        child:Column(
+        
+        mainAxisSize: MainAxisSize.min,
+        children: [SizedBox(height: 10,),
+        Container(height: height*0.6,
+        
+        child: Column(
+          children: [
+            Text("Thermals", style: TextStyle(fontSize: 30*fontMultiplier, fontFamily: 'ProductSansBold', color: Colors.white),),
+            SizedBox(height: 5),
+            Text("Value in bracket shows temperature of battery in degree Celcius", style: TextStyle(fontSize: 17*fontMultiplier, fontFamily: 'ProductSansRegular', color: Colors.white),),
 
+            SizedBox(height: 10),
+            RichText(text: TextSpan(text: 'None ', style: TextStyle(fontSize: 17*fontMultiplier, fontFamily: 'ProductSansBold', color: Colors.white),
+            children: [TextSpan(text: '- The device is operating normally with no throttling', style: TextStyle(fontSize: 17*fontMultiplier, fontFamily: 'ProductSansRegular', color: Colors.white))
+            ])),
+            SizedBox(height: 7),
+            
+            RichText(text: TextSpan(text: 'Light ', style: TextStyle(fontSize: 17*fontMultiplier, fontFamily: 'ProductSansBold', color: Colors.white),
+            children: [TextSpan(text: '- The device is throttling where UX is not impacted', style: TextStyle(fontSize: 17*fontMultiplier, fontFamily: 'ProductSansRegular', color: Colors.white))])),            
+            SizedBox(height: 7),
+            RichText(text: TextSpan(text: 'Moderate ', style: TextStyle(fontSize: 17*fontMultiplier, fontFamily: 'ProductSansBold', color: Colors.white),
+            children: [TextSpan(text: '- The device is throttling where UX is not largely impacted. Android only', style: TextStyle(fontSize: 17*fontMultiplier, fontFamily: 'ProductSansRegular', color: Colors.white))])),            
+            SizedBox(height: 7),
+            RichText(text: TextSpan(text: 'Severe ', style: TextStyle(fontSize: 17*fontMultiplier, fontFamily: 'ProductSansBold', color: Colors.white),
+            children: [TextSpan(text: '- The device is throttling where UX is impacted', style: TextStyle(fontSize: 17*fontMultiplier, fontFamily: 'ProductSansRegular', color: Colors.white))])),            
+            SizedBox(height: 7),
+            RichText(text: TextSpan(text: 'Critical ', style: TextStyle(fontSize: 17*fontMultiplier, fontFamily: 'ProductSansBold', color: Colors.white),
+            children: [TextSpan(text: '- The device is throttling where everything is being done to reduce power.', style: TextStyle(fontSize: 17*fontMultiplier, fontFamily: 'ProductSansRegular', color: Colors.white))])),            
+            SizedBox(height: 7),
+            RichText(text: TextSpan(text: 'Emergency ', style: TextStyle(fontSize: 17*fontMultiplier, fontFamily: 'ProductSansBold', color: Colors.white),
+            children: [TextSpan(text: '- Key components in the platform are shutting down. Android only', style: TextStyle(fontSize: 17*fontMultiplier, fontFamily: 'ProductSansRegular', color: Colors.white))])),            
+            SizedBox(height: 10),
+            Text("https://github.com/muxable/flutter_thermal", style: TextStyle(fontSize: 14*fontMultiplier, fontFamily: 'ProductSansRegular', color: Colors.white),),
+        ]),),
+        SizedBox(height: 10,)
+      ],)));
+
+    },
+  );
+
+  Widget build(BuildContext context) {
+    final data = MediaQueryData.fromWindow(WidgetsBinding.instance!.window);
+    final deviceWidth = data.size.width;
+    final deviceHeight = data.size.height;
     return Scaffold(
       backgroundColor: Colors.transparent,
       appBar: AppBar(
@@ -76,20 +131,20 @@ class HomePage extends StatelessWidget {
                     stream: Thermal().onBatteryTemperatureChanged,
                     builder: (context, snapshot2){
                     if (snapshot1.data.toString() == 'ThermalStatus.none'){
-                      a = 'None';
+                      thermalStatus = 'None';
                     } else if  (snapshot1.data.toString() == 'ThermalStatus.light'){
-                      a = 'Light';
+                      thermalStatus = 'Light';
                     } else if (snapshot1.data.toString() == 'ThermalStatus.moderate') {
-                      a = 'Moderate';
+                      thermalStatus = 'Moderate';
                     } else if (snapshot1.data.toString() == 'ThermalStatus.severe') {
-                      a = 'Severe';
+                      thermalStatus = 'Severe';
                     } else if (snapshot1.data.toString() == 'ThermalStatus.critical') {
-                      a = 'Critical';
+                      thermalStatus = 'Critical';
 
                     } else if (snapshot1.data.toString() == 'ThermalStatus.emergency') {
-                      a = 'Emergency';
+                      thermalStatus = 'Emergency';
                     }
-                      return CustomCard3(inputText: "Thermals", inputText2: Text("${a} (${snapshot2.data}°C)",style: TextStyle(fontSize: 19*fontMultiplier, fontFamily: 'ProductSansRegular',color: Colors.white),), color1: Colors.redAccent, color2: homeCardColor);
+                      return InkWell(onTap: () => thermalCustomDialog(context, deviceHeight),child: CustomCard3(inputText: "Thermals", inputText2: Text("${thermalStatus} (${snapshot2.data}°C)",style: TextStyle(fontSize: 19*fontMultiplier, fontFamily: 'ProductSansRegular',color: Colors.white),), color1: Colors.redAccent, color2: homeCardColor));
                     }
                   );
                   
